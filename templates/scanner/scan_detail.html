@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Scan #{{ scan.id }} · PWDS{% endblock %}
+{% block content %}
+<div class="card pwds-card shadow-sm mb-3">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start flex-wrap">
+      <div>
+        <h4 class="mb-1"><i class="bi bi-shield-check"></i> Scan #{{ scan.id }}</h4>
+        <div class="text-muted small">{{ scan.created_at }}</div>
+        <div class="mt-2 text-break"><b>URL:</b> {{ scan.url }}</div>
+      </div>
+      <div class="text-end">
+        <span class="badge fs-6 bg-{% if scan.verdict == 'SAFE' %}success{% elif scan.verdict == 'SUSPICIOUS' %}warning{% else %}danger{% endif %}">
+          {{ scan.get_verdict_display }} · {{ scan.threat_score }}%
+        </span>
+        <div class="mt-2">
+          <a class="btn btn-primary" href="{% url 'scanner:scan_pdf' scan.id %}"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card pwds-card"><div class="card-body">
+      <h6>Lexical & Behavioural Features</h6>
+      <table class="table table-sm">
+        {% for k, v in scan.features.items %}
+        <tr><th class="text-capitalize">{{ k|cut:'_' }}</th><td>{{ v }}</td></tr>
+        {% endfor %}
+      </table>
+    </div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card pwds-card"><div class="card-body">
+      <h6>Network Intelligence</h6>
+      <table class="table table-sm">
+        <tr><th>Registrar</th><td>{{ scan.network.whois.registrar|default:"n/a" }}</td></tr>
+        <tr><th>Country</th><td>{{ scan.network.whois.country|default:"n/a" }}</td></tr>
+        <tr><th>Created</th><td>{{ scan.network.whois.creation|default:"n/a" }}</td></tr>
+        <tr><th>Expires</th><td>{{ scan.network.whois.expiration|default:"n/a" }}</td></tr>
+        <tr><th>Age (days)</th><td>{{ scan.network.whois.age_days|default:"n/a" }}</td></tr>
+        <tr><th>A records</th><td>{{ scan.network.dns.A|join:", " }}</td></tr>
+        <tr><th>MX records</th><td>{{ scan.network.dns.MX|join:", " }}</td></tr>
+        <tr><th>NS records</th><td>{{ scan.network.dns.NS|join:", " }}</td></tr>
+      </table>
+    </div></div>
+  </div>
+
+  <div class="col-12">
+    <div class="card pwds-card"><div class="card-body">
+      <h6>Recommended Defensive Actions</h6>
+      <ul class="list-group list-group-flush">
+        {% for r in scan.recommendations.all %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ r.text }}</span>
+            <span class="badge bg-{% if r.severity == 'HIGH' %}danger{% elif r.severity == 'MED' %}warning{% else %}secondary{% endif %}">{{ r.get_severity_display }}</span>
+          </li>
+        {% empty %}<li class="list-group-item text-muted">No recommendations.</li>{% endfor %}
+      </ul>
+    </div></div>
+  </div>
+</div>
+{% endblock %}

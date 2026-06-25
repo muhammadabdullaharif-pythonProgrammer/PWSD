@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Scan history · PWDS{% endblock %}
+{% block content %}
+<div class="card pwds-card shadow-sm">
+  <div class="card-body">
+    <h4 class="mb-3"><i class="bi bi-clock-history"></i> Scan History</h4>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark"><tr>
+          <th>#</th><th>URL</th><th>Verdict</th><th>Score</th><th>When</th><th></th>
+        </tr></thead>
+        <tbody>
+        {% for s in scans %}
+          <tr>
+            <td>{{ s.id }}</td>
+            <td class="text-truncate" style="max-width:380px">{{ s.url }}</td>
+            <td><span class="badge bg-{% if s.verdict == 'SAFE' %}success{% elif s.verdict == 'SUSPICIOUS' %}warning{% else %}danger{% endif %}">{{ s.get_verdict_display }}</span></td>
+            <td>{{ s.threat_score }}%</td>
+            <td>{{ s.created_at|date:"Y-m-d H:i" }}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'scanner:scan_detail' s.id %}">Details</a>
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'scanner:scan_pdf' s.id %}">PDF</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No scans yet.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

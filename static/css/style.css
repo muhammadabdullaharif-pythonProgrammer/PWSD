@@ -1,0 +1,22 @@
+/* PWDS — industrial cybersecurity look */
+:root{
+  --pwds-primary:#0b3d91;
+  --pwds-primary-2:#1554c4;
+  --pwds-bg:#f4f6fb;
+  --pwds-dark:#0a1530;
+  --pwds-accent:#00c2a8;
+}
+body{background:var(--pwds-bg);color:#1a2238;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+.pwds-nav{background:linear-gradient(90deg,var(--pwds-dark),var(--pwds-primary));}
+.pwds-nav .navbar-brand{letter-spacing:1px;}
+.pwds-footer{background:var(--pwds-dark);color:#cdd6f4;margin-top:2rem;}
+.pwds-card{border:0;border-radius:14px;}
+.pwds-stat{border:0;border-radius:14px;border-left:6px solid var(--pwds-primary);}
+.pwds-stat.safe{border-left-color:#1a7f37;}
+.pwds-stat.sus{border-left-color:#b86e00;}
+.pwds-stat.ph{border-left-color:#c4302b;}
+.btn-primary{background:var(--pwds-primary);border-color:var(--pwds-primary);}
+.btn-primary:hover{background:var(--pwds-primary-2);border-color:var(--pwds-primary-2);}
+.badge.bg-success{background:#1a7f37 !important;}
+.badge.bg-warning{background:#b86e00 !important;color:#fff !important;}
+.badge.bg-danger{background:#c4302b !important;}

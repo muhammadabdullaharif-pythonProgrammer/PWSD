@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · PWDS{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-12">
+    <div class="card pwds-card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3"><i class="bi bi-radar"></i> URL Threat Scanner</h4>
+        <form id="scan-form" class="row g-2">
+          {% csrf_token %}
+          <div class="col-md-9">
+            <input id="scan-url" class="form-control form-control-lg"
+                   placeholder="https://example.com/login" required maxlength="2048">
+          </div>
+          <div class="col-md-3 d-grid">
+            <button class="btn btn-primary btn-lg" id="scan-btn">
+              <i class="bi bi-search"></i> Analyse
+            </button>
+          </div>
+        </form>
+        <div class="progress mt-3 d-none" id="scan-progress" style="height:6px">
+          <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width:100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12" id="scan-result"></div>
+
+  <div class="col-md-3"><div class="card pwds-stat"><div class="card-body"><div class="text-muted small">TOTAL SCANS</div><div class="display-6" id="m-total">—</div></div></div></div>
+  <div class="col-md-3"><div class="card pwds-stat safe"><div class="card-body"><div class="text-muted small">SAFE</div><div class="display-6" id="m-safe">—</div></div></div></div>
+  <div class="col-md-3"><div class="card pwds-stat sus"><div class="card-body"><div class="text-muted small">SUSPICIOUS</div><div class="display-6" id="m-sus">—</div></div></div></div>
+  <div class="col-md-3"><div class="card pwds-stat ph"><div class="card-body"><div class="text-muted small">PHISHING</div><div class="display-6" id="m-ph">—</div></div></div></div>
+
+  <div class="col-md-6"><div class="card pwds-card"><div class="card-body"><h6>Verdict distribution</h6><canvas id="chart-verdict" height="180"></canvas></div></div></div>
+  <div class="col-md-6"><div class="card pwds-card"><div class="card-body"><h6>Scans per day (last 7d)</h6><canvas id="chart-daily" height="180"></canvas></div></div></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PWDS_BOOT = "dashboard";</script>
+{% endblock %}
