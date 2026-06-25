@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Phishing Website Detection System (PWDS)
 
 **Final Year Project — BS Computer Science (2022-2026)**
@@ -49,3 +50,6 @@ u.role = "ADMIN"; u.is_staff = True; u.is_superuser = True; u.save()
 - Explicit XSS / clickjacking / referrer headers
 - Role-based decorators on every protected view
 - All scan input sanitised before feature extraction
+=======
+# PWSD
+>>>>>>> 66f1ab12ec016d34023f3bdcb399af925a6a5196
